@@ -144,7 +144,7 @@ const deleteTask = (req: Request, res: Response) => {
         if (!task) {
             return res.status(404).send({ message: 'Task not found for this user' });
         }
-        db.prepare("DELETE tasks WHERE id = ?").run(id);
+        db.prepare("DELETE FROM tasks WHERE id = ?").run(id);
         res.status(200).send({message: 'Task deleted!'});        
     } catch (error) {
         console.error(error);
