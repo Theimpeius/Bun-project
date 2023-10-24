@@ -6,7 +6,9 @@ db.query(`
     CREATE TABLE IF NOT EXISTS tasks(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         description TEXT,
-        done BOOLEAN
+        done BOOLEAN,
+        user_id INTEGER,
+        FOREIGN KEY (user_id) REFERENCES users (id)
     )
 `).run();
 

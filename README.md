@@ -1,4 +1,4 @@
-# bun-crud
+# bun-project
 
 To install dependencies:
 
