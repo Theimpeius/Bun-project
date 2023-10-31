@@ -54,11 +54,11 @@ const getTask = (req: Request, res: Response) => {
 const createTask = (req: Request, res: Response) => {
     try {
         //Obtiene los datos de descripción y id de usuario (id) del cuerpo de la solicitud (req.body).
-        const { description, id }: Task = req.body;
+        const { description, username }: Task = req.body;
 
         //Prepara y ejecuta una consulta SQL para obtener el ID del usuario basado en su nombre de usuario.
-        const userQuery = db.prepare(`SELECT id FROM users WHERE id = ?`);
-        const user = userQuery.get(id) as User;
+        const userQuery = db.prepare(`SELECT id FROM users WHERE username = ?`);
+        const user = userQuery.get(username) as User;
 
         //Verifica si el usuario existe.
         if (!user) {
