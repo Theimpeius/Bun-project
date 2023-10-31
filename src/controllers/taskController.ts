@@ -53,7 +53,7 @@ const getTask = (req: Request, res: Response) => {
 
 const createTask = (req: Request, res: Response) => {
     try {
-        //Obtiene los datos de descripción y id de usuario (id) del cuerpo de la solicitud (req.body).
+        //Obtiene los datos de descripción y nombre de usuario (username) del cuerpo de la solicitud (req.body).
         const { description, username }: Task = req.body;
 
         //Prepara y ejecuta una consulta SQL para obtener el ID del usuario basado en su nombre de usuario.
@@ -69,9 +69,9 @@ const createTask = (req: Request, res: Response) => {
         //Prepara y ejecuta una consulta SQL para insertar un nuevo registro en la base de datos
         const taskQuery = db.prepare(`INSERT INTO tasks (description, done, user_id) VALUES (?, ?, ?)`);
         taskQuery.run(description, false, user.id);
-
+        const task = taskQuery.get();
         //Responde con un código de estado 200 (OK) y un mensaje indicando que la tarea se creó con éxito.
-        res.status(200).send({ message: 'Task created!' });
+        res.status(200).send({ message: 'Task created!', task: task});
     } catch (error) {
         //Si ocurre un error, captura la excepción y envía una respuesta con un código de estado 500 (Error interno del servidor) y un mensaje de error.
         console.error(error);
