@@ -27,7 +27,6 @@ const getUser = (req: Request, res: Response) => {
 
 const singup = async (req: Request, res: Response) => {
     try {
-        console.log("hello world");
         const { username, email, password } = req.body;
         const hashedPassword = await Bun.password.hash(password);
         db.query(`INSERT INTO users (username, email, password) VALUES ($username, $email, $hashedPassword)`).run({$username: username, $email: email, $hashedPassword: hashedPassword});

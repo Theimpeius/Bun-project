@@ -53,12 +53,12 @@ const getTask = (req: Request, res: Response) => {
 
 const createTask = (req: Request, res: Response) => {
     try {
-        //Obtiene los datos de descripción y nombre de usuario (username) del cuerpo de la solicitud (req.body).
-        const { description, username }: Task = req.body;
+        //Obtiene los datos de descripción y id de usuario (id) del cuerpo de la solicitud (req.body).
+        const { description, id }: Task = req.body;
 
         //Prepara y ejecuta una consulta SQL para obtener el ID del usuario basado en su nombre de usuario.
-        const userQuery = db.prepare(`SELECT id FROM users WHERE username = ?`);
-        const user = userQuery.get(username) as User;
+        const userQuery = db.prepare(`SELECT id FROM users WHERE id = ?`);
+        const user = userQuery.get(id) as User;
 
         //Verifica si el usuario existe.
         if (!user) {
@@ -83,7 +83,7 @@ const updateTask = (req: Request, res: Response) => {
     try {
         //Obtiene los datos de la ruta (parámetros) y el cuerpo de la solicitud.
         const { username, id } = req.params;
-        const { description }: Task = req.body;
+        const { description, done }: Task = req.body;
 
         // Verifica si el parámetro de "username" en la ruta.
         if (!username) {
@@ -111,7 +111,7 @@ const updateTask = (req: Request, res: Response) => {
         }
 
         //Prepara una consulta SQL para actualizar la descripción de la tarea basada en su ID.
-        db.prepare("UPDATE tasks SET description = ? WHERE id = ?").run(description, id);
+        db.prepare("UPDATE tasks SET description = ?, done = ? WHERE id = ?").run(description, done, id);
 
         //Responde con un código de estado 200 (OK) y un mensaje indicando que la tarea se actualizó con éxito.
         res.status(200).send({ message: 'Task updated!' });
